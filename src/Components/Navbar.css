@@ -1,0 +1,9 @@
+.dropdown-divider {
+    background-color: #ffffff;
+    margin-left:39px;
+    margin-right:38px;
+  }
+  .dropdown-item:hover{
+    background-color: transparent;
+    cursor: pointer;
+  }

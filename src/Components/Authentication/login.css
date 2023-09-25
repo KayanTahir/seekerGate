@@ -1,0 +1,29 @@
+input {
+    box-shadow:none !important;
+    outline:none;
+  }
+  input.form-control {
+    height:48px;
+  }
+  #btnHolder {
+    margin:0px -16px -16px -16px;
+  }
+  #btnHolder .btn {
+    border-radius:0px 0px 4px 4px !important;
+    height:60px;
+  }
+   
+  #brandLogoOuter {
+    margin-top:-40px;
+  }
+  #brandLogoInner {
+    font-size:24px;
+    width:48px;
+    height:48px;
+    line-height:48px;
+    border-radius:50%;
+    background : #ffc108;
+    text-align:center;
+    color:#fff;
+    margin: 0 auto;
+  }

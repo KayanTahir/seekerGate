@@ -16,7 +16,7 @@ import {
   Modal,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Axios from 'axios';
 function SignupModal({ open, handleClose }) {
   const [user, setUser] = useState({
@@ -36,21 +36,19 @@ function SignupModal({ open, handleClose }) {
       [name]: value,
     });
   };
-
-  const handleAdd = () => {
-    
-    Axios.post("enterUrl", {
-      email: user.email,
-      password: user.password,
-      name: user.name,
-      confirmpassword: user.confirmpassword,
-    }).then((responce) => {
-      if (responce.data.message) {
-        alert(responce.data.message);
-      } else {
-        alert("account created succesfully");
-      }
-    });
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [mobile_number, setMobile_number] = useState('')
+  const [users, setUsers] = useState('')
+  const [city, setCity] = useState('')
+  const handleAdd = (event) => {
+    event.preventDefault();
+    Axios.post("http://127.0.0.1:8000/api/Signup", {username, users, password, mobile_number, city})
+    .then(res => {
+      window.location.href = "/";
+    })
+    .catch(err => console.log(err))
     
   };
   const [showPassword, setShowPassword] = useState(false);
@@ -126,14 +124,44 @@ function SignupModal({ open, handleClose }) {
 
             <Stack spacing={1}>
               <label>
-                <b>Full Name</b>
+                <b>Enter Email</b>
               </label>
 
               <TextField
                 type="name"
-                value={user.name}
+                placeholder="Enter Enter"
+                value={username}
                 name="name"
-                onChange={handleChange}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="off"
+                sx={inputField}
+                required
+                size="small"
+              />
+               <label>
+                <b>Enter Password</b>
+              </label>
+
+              <TextField
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                name="name"
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+                sx={inputField}
+                required
+                size="small"
+              />
+               <label>
+               <strong> Enter Name </strong> 
+               </label>
+               <TextField
+                type="name"
+                placeholder="Enter Name"
+                value={users}
+                name="name"
+                onChange={(e) => setUsers(e.target.value)}
                 autoComplete="off"
                 sx={inputField}
                 required
@@ -141,17 +169,18 @@ function SignupModal({ open, handleClose }) {
               />
             </Stack>
             
-            {/* <Grid container>
+             <Grid container>
             <Grid item lg={6} md={6} sm={6} sx={{pr:"4px"}}>
             <Stack spacing={1}>
               <label>
-                <b>Email Address</b>
+                <b>Enter City</b>
               </label>
               <TextField
-                type="email"
-                value={user.email}
-                name="email"
-                onChange={handleChange}
+                type="City"
+                placeholder="Enter City"
+                value={city}
+                name="City"
+                onChange={(e)=>setCity(e.target.value)}
                 autoComplete="off"
                 sx={inputField}
                 required
@@ -162,65 +191,67 @@ function SignupModal({ open, handleClose }) {
             <Grid item lg={6} md={6} sm={6}>
             <Stack spacing={1}>
               <label>
-                <b>Gender</b>
+                <b>Enter Phone</b>
               </label>
               <TextField
-                type="email"
-                value={user.gender}
-                name="gender"
-                onChange={handleChange}
+                // text='+92'
+                type="number"
+                value={mobile_number}
+                name="number"
+                onChange={(e) => setMobile_number(e.target.value)}
                 autoComplete="off"
                 sx={inputField}
                 required
                 size="small"
-                select
-              >         
-      <MenuItem value="male">Male</MenuItem>
+                
+              />         
+      {/* <MenuItem value="male">Male</MenuItem>
       <MenuItem value="female">Female</MenuItem>
               </TextField>
             </Stack>
             </Grid>
-           </Grid> */}
+           </Grid> 
            <Grid container>
             <Grid item lg={6} md={6} sm={6} sx={{pr:"4px"}}>
             <Stack spacing={1}>
-              <label>
-                <b>Address</b>
-              </label>
-              <TextField
-                type="email"
-                value={user.address}
+              {/* <label> */}
+               {/* <b>password</b>
+              </label> */}
+              {/* <TextField
+                type="Password"
+                value={user.password}
                 name="address"
-                onChange={handleChange}
+                onChange={(e)=>setPassword(e.target.value)}
                 autoComplete="off"
                 sx={inputField}
                 required
                 size="small"
-              />
+              /> */}
             </Stack>
             </Grid>
             <Grid item lg={6} md={6} sm={6} sx={{pt:isMatchsm?"4px":null}}>
             <Stack spacing={1}>
-              <label>
+              {/* <label>
                 <b>City</b>
               </label>
               <TextField
-                type="email"
-                value={user.city}
+                type="city"
+                value={city}
                 name="city"
-                onChange={handleChange}
+                onChange={(e)=>setCity(e.target.value)}
                 autoComplete="off"
                 sx={inputField}
                 required
                 size="small"
-              />
+              /> */}
             </Stack>
             </Grid>
            </Grid>
            <Grid container>
             <Grid item lg={6} md={6} sm={6} sx={{pr:"4px"}}>
+              
             <Stack spacing={1}>
-              <label>
+              {/* <label>
                 <b>Password</b>
               </label>
               <TextField
@@ -239,18 +270,18 @@ function SignupModal({ open, handleClose }) {
                         onClick={handleTogglePassword}
                         sx={{ color: "#3E39D1" }}
                         edge="end"
-                      >
+                      > 
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
-              />
+              />*/}
             </Stack>
             </Grid>
             <Grid item lg={6} md={6} sm={6} sx={{pt:isMatchsm?"4px":null}}>
             <Stack spacing={1}>
-              <label>
+              {/* <label>
                 <b>Confirm Password</b>
               </label>
               <TextField
@@ -279,7 +310,7 @@ function SignupModal({ open, handleClose }) {
                     </InputAdornment>
                   ),
                 }}
-              />
+              /> */}
             </Stack>
             </Grid>
            </Grid>

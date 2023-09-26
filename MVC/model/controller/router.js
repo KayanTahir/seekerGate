@@ -20,14 +20,14 @@ const db_con = require('../model/db');
 // })
 
 router.post('/login', (req, res) => {
-  const sql = "SELECT User FROM tbl_users WHERE Username = ? AND Password = ? ";
+  const sql = "SELECT Users FROM tbl_users WHERE Username = ? AND Password = ? ";
 
   db_con.query(sql, [req.body.email, req.body.password], (err, data) => {
     if (err) return res.json({ msg: "ERROR" });
     if (data.length > 0) {
-      const User = data[0].User;
+      const Users = data[0].Users;
       res.status(200) // Extract username from the first result
-      return res.json({ msg: "Login Successful", User });
+      return res.json({ msg: "Login Successful", Users });
     } else {
       res.status(404)
       return res.json({ msg: "No Record" });
@@ -35,6 +35,20 @@ router.post('/login', (req, res) => {
   });
 });
 
+router.post('/Signup', (req, res) => {
+  const sql = " INSERT INTO tbl_users (`Username`, `Password`, `Users`, `mobile_number`, `city`) VALUES (?)";
+  const values = [
+    req.body.username,
+    req.body.password,
+    req.body.users,
+    req.body.mobile_number,
+    req.body.city,
+  ]
+  db_con.query(sql, [values],(err, data) => {
+    if(err) return res.json(err);
+    return res.json("created");
+  });
+});
 
 
 // // db_con.connect((err) => {

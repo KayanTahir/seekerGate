@@ -39,6 +39,7 @@ const Learners = () => {
                                     {/* <TableCell><Typography color="white" variant="h6"><b>Joining Date</b></Typography></TableCell> */}
                                     <TableCell><Typography color="white" variant="h6"><strong>Username</strong></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Password</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>City</b></Typography></TableCell>
                                      <TableCell><Typography color="white" variant="h6"><b>Remove User</b></Typography></TableCell> 
                                 </TableRow>
                             </TableHead>
@@ -49,9 +50,9 @@ const Learners = () => {
                                         <>
                                             <TableRow>
                                                 <TableCell><Typography><strong>{d.Username}</strong></Typography></TableCell>
-                                                <TableCell><Typography>{d.User}</Typography></TableCell>
+                                                <TableCell><Typography>{d.Users}</Typography></TableCell>
                                                  <TableCell><Typography>{d.Password}</Typography></TableCell>
-                                                {/*<TableCell><Typography>{p.email}</Typography></TableCell> */}
+                                                <TableCell><Typography>{d.city}</Typography></TableCell> 
                                                 <TableCell><Typography><Button onClick={e => handleDelete(d.id)} variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
                                             </TableRow>
                                         </>

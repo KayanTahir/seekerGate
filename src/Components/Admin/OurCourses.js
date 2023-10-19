@@ -1,9 +1,11 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Navbar from './Navbar'
 import { Paper, Table, TableHead,Typography,Modal, TableContainer, TableRow, TableCell, TableBody, Button } from '@mui/material';
 import { Container } from '@mui/system';
 import Footer from '../Footer';
-import AddCourse from './AddCourse';
+import AddCourse from './Addvideo';
+import { getRequest } from '../../Api';
+import { apiRoutes } from '../../Api/apiRoutes';
 const OurCourses = () => {
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => {
@@ -13,49 +15,26 @@ const OurCourses = () => {
     const handleCloseModal = () => {
       setOpenModal(false);
     };
-    const ourCourses = [{
-        catogory:"Computer Science",
-        name:"hands on machine learning",
-        releasedDate:"20-5-2023",
-        totalVideos:"8",
-        totalDuration:"156 minutes"
-    },{
-        catogory:"Computer Science",
-        name:"hands on machine learning",
-        releasedDate:"20-5-2023",
-        totalVideos:"8",
-        totalDuration:"156 minutes"
-    },{
-        catogory:"Data Science",
-        name:"Fundamentals of Computer Vision",
-        releasedDate:"20-5-2023",
-        totalVideos:"12",
-        totalDuration:"216 minutes"
-    },{
-        catogory:"Computer Science",
-        name:"hands on machine learning",
-        releasedDate:"20-5-2023",
-        totalVideos:"8",
-        totalDuration:"156 minutes"
-    },{
-        catogory:"Data Science",
-        name:"Fundamentals of Computer Vision",
-        releasedDate:"20-5-2023",
-        totalVideos:"12",
-        totalDuration:"216 minutes"
-    },{
-        catogory:"Computer Science",
-        name:"hands on machine learning",
-        releasedDate:"20-5-2023",
-        totalVideos:"8",
-        totalDuration:"156 minutes"
-    },{
-        catogory:"Computer Science",
-        name:"hands on machine learning",
-        releasedDate:"20-5-2023",
-        totalVideos:"8",
-        totalDuration:"156 minutes"
-    }]
+
+
+    const [data, setData] = useState([]);
+    
+    const getData = async () => {
+        const onSuccess = (res) => {
+            setData(res.data)
+        }
+        const onError = (err) => {      
+        }
+
+        await getRequest('', apiRoutes.courses, onSuccess, onError)
+    }
+
+    useEffect(()=>{
+        getData();
+    })
+    
+
+    
   return (
     <>
     <Navbar/>
@@ -67,25 +46,26 @@ const OurCourses = () => {
                             <TableHead sx={{ background: "#1769aa" }}>
                                 <TableRow>
                                     <TableCell><Typography color="white" variant="h6"><b>Catogory</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Name</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>released Date</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Course Name</b></Typography></TableCell>
+                                  
                                     <TableCell><Typography color="white" variant="h6"><b>total Videos</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Time Duration</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Course Upload Date</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>released Time</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Remove Course</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Update Course</b></Typography></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
 
-                                {ourCourses.map((p) => {
+                                {data.map((d, i) => {
                                     return (
                                         <>
                                             <TableRow>
-                                                <TableCell><Typography>{p.catogory}</Typography></TableCell>
-                                                <TableCell><Typography>{p.name}</Typography></TableCell>
-                                                <TableCell><Typography>{p.releasedDate}</Typography></TableCell>
-                                                <TableCell><Typography>{p.totalVideos}</Typography></TableCell>
-                                                <TableCell><Typography>{p.totalDuration}</Typography></TableCell>
+                                                <TableCell><Typography>{d.course_catg}</Typography></TableCell>
+                                                <TableCell><Typography>{d.course_name}</Typography></TableCell>
+                                                <TableCell><Typography>{d.total_video}</Typography></TableCell>
+                                                <TableCell><Typography>{d.course_rel_date}</Typography></TableCell>
+                                                <TableCell><Typography>{d.course_dur_time}</Typography></TableCell>
                                                 <TableCell><Typography><Button variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
                                                 <TableCell><Typography><Button variant="contained" sx={{ background: "blue" }}>Update</Button></Typography></TableCell>
                                             </TableRow>

@@ -17,3 +17,36 @@
 .course:hover{
     transform: scale(1.02);
 }
+
+
+.Video_style{
+    width: 50%;
+}
+
+.Notes_video {
+    position: fixed;
+    top: 30%;
+    cursor: pointer;
+    margin-left: 95%;
+    -webkit-transform: translateY(50%);
+    -ms-transform: translateY(50%);
+    transform: translateY(50%);
+    transform: rotate(90deg);
+    
+}
+
+
+@media screen and (max-width : 900px) {
+    .Notes_video {
+        position: fixed;
+        top: 30%;
+        cursor: pointer;
+        margin-left: 85%;
+        -webkit-transform: translateY(50%);
+        -ms-transform: translateY(50%);
+        transform: translateY(50%);
+        transform: rotate(90deg);
+        
+    }   
+}
+

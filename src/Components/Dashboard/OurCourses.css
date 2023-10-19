@@ -26,3 +26,43 @@
 .course:hover{
     transform: scale(1.02);
 }
+
+.Pagh{
+  width: 100%;
+  height: 150px;
+  background-color: #dddddd;
+  color:rgb(0, 0, 0);
+  border-color: blue;
+
+}
+
+.Username_syt{
+  margin-top: 8px;
+  color:#2cc501;
+  margin-left: 110px;
+}
+
+.hide-textfield {
+  display: none;
+  background-color:#2cc501;
+}
+
+.Notes_box{
+  background-color: #86f04e;
+  
+  vertical-align: super;
+}
+
+.text_dump{
+  width: 100%;
+  height: 150px;
+  background-color: rgb(218, 250, 250);
+  border-color: #ffffff;
+  border-radius: 0px;
+  text-align: start;
+  box-shadow: 2px;
+}
+
+.upperx{
+  margin-top: -50px;
+}

@@ -18,6 +18,8 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
+import { postRequest } from "../../Api";
+import { apiRoutes } from "../../Api/apiRoutes";
 function SignupModal({ open, handleClose }) {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -57,26 +59,48 @@ function SignupModal({ open, handleClose }) {
     //   user.name = "";
     //   user.password = "";
     //}
-    
-    const [email, setEmail] = useState('')
+   
+   const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
+   const [msg, setMsg] = useState('')
+   const [id, setId] = useState('')
+   
    //const [loginSuccessful, setLoginSuccessful] = useState(false);
 
-   function handleLogin(event) {
+   async function handleLogin(event) {
     
     event.preventDefault();
     
-    
-   axios.post('http://127.0.0.1:8000/api/login ' , {email, password})
-   .then(res => {
-    console.log(res);
-    //setLoginSuccessful(true);
-    if(res.status === 200){
+
+    const onSuccess = (res) => {
+      setMsg(res.msg);
+      localStorage.setItem('ID',res.id)
+      localStorage.setItem('username', res.Users)
       navigate('/ourcourses')
+      
     }
-     // Update state to indicate successful login
-  })
-    .catch(err => console.log(err));
+    const onError =(res) => {
+      alert(res.msg);
+      
+    } 
+
+    await postRequest({email,password},apiRoutes.login,onSuccess, onError)
+  //  axios.post('http://127.0.0.1:8000/api/login ' , {email, password })
+   
+  //  .then(res => {
+  //   console.log(res);
+    
+  //   //setLoginSuccessful(true);
+  //   if(res.status === 200){
+  //     navigate('/ourcourses')
+  //     setMsg(res.data.msg);
+  //   }
+  //    // Update state to indicate successful login
+  // })
+  //   .catch(err => {
+  //     console.error('Login failed:', err);
+  //     setMsg('User Not Found')
+  //   });
    
   }
   const [showPassword, setShowPassword] = useState(false);
@@ -157,8 +181,10 @@ function SignupModal({ open, handleClose }) {
         </Typography>
         <br />
         <br />
+        
         <Container sx={signupFormContainer}>
          
+        
             <Stack sx={signupForm} direction="column" spacing="20px">
               <Typography variant={isMatchsm ? "h6" : "h4"} textAlign="center">
                 <b>Log in to Seekersgate</b>
@@ -208,9 +234,12 @@ function SignupModal({ open, handleClose }) {
                   }}
                 />
               </Stack>
-
+              
               <br />
-              <Stack spacing={1}>
+              <Stack spacing={0}>
+              <div className="d-flex justify-content-center text-danger ">
+  {msg && <p>{msg}</p>}
+</div>
                 <Button variant="contained" onClick={handleLogin} type="submit" >
                   Login
                 </Button>

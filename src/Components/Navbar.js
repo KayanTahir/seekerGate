@@ -78,7 +78,8 @@ import {
                 {isMatchmd ? null : (
                   <Grid item lg={6} md={6}>
                     <Stack direction="row" spacing={3}>
-                     <Typography variant="h5" ml="-20px"><b>SeekersGate</b></Typography>
+                     {/* <Typography className="title_nav" variant="h5" ml="-20px"><strong>SeekersGate</strong></Typography> */}
+                     <Typography variant="h5"><b>Seekers<span style={{color:"#62c929"}}>Gate</span></b></Typography>
                       {/* <TextField
                         variant="outlined"
                         size="small"

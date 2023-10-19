@@ -4,17 +4,43 @@ import { Paper, Table, TableHead,Typography,Modal, TableContainer, TableRow, Tab
 import { Container } from '@mui/system';
 import Footer from '../Footer';
 import axios from 'axios';
+import { body } from 'express-validator';
+import { getRequest } from '../../Api';
+import { apiRoutes } from '../../Api/apiRoutes';
+
 // function Learners(){
-   
+  
 // }
-const Learners = () => {
+
+ function Learners (){
+    const[data, setData] = useState([]);
+
+
+    const getData = async  () => {
+        const onSuccess = (res) => {
+            //console.log(res)
+            setData(res.data)
+             }
+             const onError = (err) => {
+              }
+            
+            await getRequest(body,apiRoutes.user,onSuccess,onError)
+            
+    }
     
-        const[data, setData] = useState([]);
-        useEffect(()=> {
-            axios.get('http://127.0.0.1:8000/api/user')
-            .then(res => setData(res.data))
-            .catch(err => console.log(err));
-        })
+    useEffect(()=>{
+        getData();
+    })
+
+
+// const Learners = () => {
+    
+//         const[data, setData] = useState([]);
+//         useEffect(()=> {
+//             axios.get('http://127.0.0.1:8000/api/user')
+//             .then(res => setData(res.data))
+//             .catch(err => console.log(err));
+//         })
 
         //http://127.0.0.1:8000/api/api/users/:id
 
@@ -45,7 +71,7 @@ const Learners = () => {
                             </TableHead>
                             <TableBody>
 
-                                {data.map((d , i) => {
+                                {data?.map((d , i) => {
                                     return (
                                         <>
                                             <TableRow>

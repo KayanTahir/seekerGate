@@ -18,6 +18,8 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from 'axios';
+import { postRequest } from "../../Api";
+import { apiRoutes } from "../../Api/apiRoutes";
 function SignupModal({ open, handleClose }) {
   const [user, setUser] = useState({
     email: "",
@@ -37,20 +39,50 @@ function SignupModal({ open, handleClose }) {
     });
   };
   const navigate = useNavigate();
+   
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [mobile_number, setMobile_number] = useState('')
   const [users, setUsers] = useState('')
   const [city, setCity] = useState('')
-  const handleAdd = (event) => {
+
+  
+
+  async function handleAdd(event) {
     event.preventDefault();
-    Axios.post("http://127.0.0.1:8000/api/Signup", {username, users, password, mobile_number, city})
-    .then(res => {
-      window.location.href = "/";
-    })
-    .catch(err => console.log(err))
+
+    const onSuccess = (res) =>{
+      alert('User created')
+     window.location.href = "/";
+    }
+    const onError =(err) => {
+      alert('Please Enter the Complete Detail');
+    } 
     
-  };
+     const body = {
+      username,
+      password,
+      mobile_number,
+      users,
+      city
+    
+     }
+    
+      
+    
+    await postRequest(body,apiRoutes.Signup,onSuccess, onError)
+  }
+
+
+  // const handleAdd = (event) => {
+  //   event.preventDefault();
+  //   Axios.post("http://127.0.0.1:8000/api/Signup", {username, users, password, mobile_number, city})
+  //   .then(res => {
+  //     window.location.href = "/";
+  //   })
+  //   .catch(err => console.log(err))
+    
+  // };
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 

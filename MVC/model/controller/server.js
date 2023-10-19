@@ -4,6 +4,9 @@ const cors = require("cors");
 const indexRouter = require ('../controller/router')
 const indeRouter = require('../controller/fetch')
 const deleteRouter =require('../controller/delete')
+const Fileupload = require('../controller/upload')
+
+
 
 const app = express();
 //http://127.0.0.1:8000/api/login
@@ -15,6 +18,7 @@ app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
+app.use(express.static('Videos'))
 
 // parse requests of content-type - application/x-www-form-urlencoded - parses incoming requests with URL-encoded payloads 
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', indexRouter);
 app.use('/api', indeRouter );
 app.use('/api' , deleteRouter);
+app.use('/api' , Fileupload);
 
  
 

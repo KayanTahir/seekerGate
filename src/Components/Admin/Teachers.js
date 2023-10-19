@@ -3,18 +3,49 @@ import Navbar from './Navbar'
  import { Paper, Table, TableHead,Typography,Modal, TableContainer, TableRow, TableCell, TableBody, Button } from '@mui/material';
 import { Container } from '@mui/system';
 import Footer from '../Footer';
-import AddCourse from './AddCourse';
+import UpdateCourses from './UpdateCourse';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { getRequest } from '../../Api';
+import { apiRoutes } from '../../Api/apiRoutes';
+import handleOpenModal from './teacherAction';
 
-const OurCourses = () => {
+function OurCourses  () {
     
-    const[data, setData] = useState([]);
-        useEffect(()=> {
-            axios.get('http://127.0.0.1:8000/api/teacher')
-            .then(res => setData(res.data))
-            .catch(err => console.log(err));
-        })
+    const [teacher_id , setTeacher_id] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+    const handleClick = async (teacher_id) => {
+        const teacherData = await handleOpenModal(teacher_id);
+        console.log('Teacher Data:', teacherData);
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+      };
+
+const [data, setData] = useState([]);
+
+const getData = async () => {
+    const onSuccess = (res) => {
+        setData(res.data)
+    }
+    const onError = (err) => {      
+    }
+    await getRequest('',apiRoutes.teacher,onSuccess,onError)
+}
+useEffect(()=>{
+    getData();
+})
+
+// const OurCourses = () => {
+    
+//     const[data, setData] = useState([]);
+//         useEffect(()=> {
+//             axios.get('http://127.0.0.1:8000/api/teacher')
+//             .then(res => setData(res.data))
+//             .catch(err => console.log(err));
+//         })
     
 //delete router
 
@@ -28,9 +59,8 @@ const handleDelete = (teacher_id) => {
     <>
     <Navbar/>
     <Container maxWidth="xl" sx={{ textAlign: "center",mt:"20px" }}>
-        {/* <Typography textAlign="start"><Button variant="contained" onClick={handleOpenModal} sx={{background:"#62c929"}}>Add Course</Button></Typography><br/> */}
-        {/* <AddCourse open={openModal} handleClose={handleCloseModal} /> */}
-                    <TableContainer component={Paper}>
+    <UpdateCourses id={teacher_id} open={openModal} handleClose={handleCloseModal} />
+                   <TableContainer component={Paper}>
                         <Table>
                             <TableHead sx={{ background: "#1769aa" }}>
                                 <TableRow>
@@ -55,7 +85,10 @@ const handleDelete = (teacher_id) => {
                                                 <TableCell><Typography>{d.teacher_catg}</Typography></TableCell>
                                                 <TableCell><Typography>{d.teacher_join_date}</Typography></TableCell>
                                                 <TableCell><Typography><Button onClick={e => handleDelete(d.teacher_id)} variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
-                                                <TableCell><Typography><Button variant="contained" sx={{ background: "blue" }}>Update</Button></Typography></TableCell>
+                                                <TableCell><Typography><Button  variant="contained" onClick={e => {
+                                                    setTeacher_id(d.teacher_id)
+                                                    handleClick(d.teacher_id)} } sx={{background:"blue"}}>Update</Button></Typography></TableCell>
+         
                                             </TableRow>
                                         </>
                                     )

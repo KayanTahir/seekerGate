@@ -27,11 +27,34 @@ import math from "./images/math.webp";
 import personal from "./images/personal.webp";
 import Footer from "../Footer";
 import { useNavigate } from 'react-router-dom';
+import { postRequest } from "../../Api";
+import { apiRoutes } from "../../Api/apiRoutes";
+import { useState } from "react";
 const OurCourses = () => {
     const navigate = useNavigate();
   const theme = useTheme();
   const isMatchmd = useMediaQuery(theme.breakpoints.down("md"));
   //State
+
+
+  const [id, setId] = useState('')
+  
+  async function handleLogin(event) {
+    
+    event.preventDefault();
+    
+
+    const onSuccess = (res) => {
+      setId(res.id);
+      
+      
+    }
+    const onError = (res) => {
+      
+    }
+
+    await postRequest('',apiRoutes.login, onSuccess, onError)
+  }
   const cards = [
     {
       num: "5129+",

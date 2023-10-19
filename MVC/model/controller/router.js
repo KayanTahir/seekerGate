@@ -4,7 +4,8 @@ const db_con = require('../model/db');
 // const { signupValidation, loginValidation } = require('./validation');
 // const { validationResult } = require('express-validator');
 // const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');       
+ const jwt = require('jsonwebtoken');       
+const { courseadd, Noteupload, userlogin } = require('./queries/queries');
 
 // router.post('/login',( req, res) => {
 // const sql = "Select * FROM tbl_users WHERE Username = ? AND Password = ? ";
@@ -20,22 +21,46 @@ const db_con = require('../model/db');
 // })
 
 router.post('/login', (req, res) => {
-  const sql = "SELECT Users FROM tbl_users WHERE Username = ? AND Password = ? ";
-
-  db_con.query(sql, [req.body.email, req.body.password], (err, data) => {
-    if (err) return res.json({ msg: "ERROR" });
+  
+  db_con.query(userlogin, [req.body.email, req.body.password], (err, data) => {
+    if (err) return res.json({  msg: "ERROR"});
     if (data.length > 0) {
       const Users = data[0].Users;
-      res.status(200) // Extract username from the first result
-      return res.json({ msg: "Login Successful", Users });
+      const id = data[0].id;
+      
+       res.status(200) // Extract username from the first result
+       const token = jwt.sign({ id: data[0].id }, 'the-super-strong-secret', { expiresIn: '1h' });
+       return res.json({ msg: "Login Successful", id, Users, token  });
     } else {
       res.status(404)
-      return res.json({ msg: "No Record" });
+      return res.json({  msg: "No Record" });
     }
   });
 });
 
 router.post('/Signup', (req, res) => {
+
+
+  const body = req.body;
+  if(!body.username){
+    res.status(400);
+    return res.json({msg: 'Username is mandatory'});
+    }else if (!body.password){
+      res.status(400)
+      return res.json({msg:"Password is mandatory"});
+    }else if (!body.users){
+      res.status(400)
+      return res.json({msg:"Users is mandatory"})
+    }else if(!body.mobile_number){
+      res.status(400)
+      return res.json({msg: "Add mobile number"})
+    }else if(!body.city){
+      res.status(400)
+      return res.json({msg:"Add your City"})
+    }
+
+
+  
   const sql = " INSERT INTO tbl_users (`Username`, `Password`, `Users`, `mobile_number`, `city`) VALUES (?)";
   const values = [
     req.body.username,
@@ -45,11 +70,86 @@ router.post('/Signup', (req, res) => {
     req.body.city,
   ]
   db_con.query(sql, [values],(err, data) => {
-    if(err) return res.json(err);
-    return res.json("created");
+    //if(err) return res.json(err);
+    if(!data.length){
+      return res.json({msg : "User build"})
+    }else{
+    return res.json({msg: "ERROR"})
+    }
+   
   });
 });
 
+//adding the course in ourcourse
+router.post('/addcourse', (req, res) => {
+
+  const coursevalue = [
+    req.body.course_catg,
+    req.body.course_name,
+    req.body.total_video,
+    req.body.course_rel_date,
+    req.body.course_dur_time
+ ]
+
+ 
+const body = coursevalue;
+  if(!body.course_catg){
+    res.status(400);
+    return res.json({msg: 'Course Catg  is mandatory'});
+    }else if (!body.course_name){
+      res.status(400)
+      return res.json({msg:"Password is mandatory"});
+    }else if (!body.total_video){
+      res.status(400)
+      return res.json({msg:"Users is mandatory"})
+    }else if(!body.course_rel_date){
+      res.status(400)
+      return res.json({msg: "Add mobile number"})
+    }else if(!body.course_dur_time){
+      res.status(400)
+      return res.json({msg:"Add your City"})
+    }
+
+   db_con.query(courseadd, [coursevalue] , (err , data) => {
+    if(!data.length){
+      return res.json({msg: "Data Inserted"})
+    }else{
+      return res.json({msg: "ERROR"})
+    }
+  });
+  
+});
+    
+
+
+router.post('/note',(req, res) => {
+
+const notesValues = [
+  req.body.notes_tle,
+  req.body.note_paragh,
+  req.body.user_id
+]
+
+// const body = notesValues;
+
+if(!req.body.notes_tle){
+  res.status(400)
+  return res.json({msg:"Title is Needed"})
+}else if(!req.body.note_paragh){
+  res.status(400)
+  return res.json({msg:"Paragarph is Needed"})
+}
+
+
+db_con.query(Noteupload, [notesValues], (err, data) => {
+  if(!data.length){
+    return res.json({msg: "Data inserted"})
+  }else{
+    return res.json({msg:"Error"})
+  }
+})
+
+})
 
 // // db_con.connect((err) => {
 // //     if (err) throw (err) => {

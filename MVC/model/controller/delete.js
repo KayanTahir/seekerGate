@@ -2,6 +2,8 @@ const db_con = require('../model/db');
 const express = require('express');
 const router = express.Router();
 
+//delete api for user table
+
 router.delete('/api/users/:id', (req, res) => {
     const id = req.params.id;
   
@@ -19,7 +21,7 @@ router.delete('/api/users/:id', (req, res) => {
     });
   });
   
-
+//delete api for the teacher table
   router.delete('/api/teacher/:teacher_id', (req, res) => {
     const teacher_id = req.params.teacher_id;
   

@@ -1,4 +1,5 @@
 import LandingPage from './Components/LandingPage';
+import Updateteacher from './Components/Admin/UpdateCourse';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import OurCourses from './Components/Dashboard/OurCourses'
 import SelectedCourse from './Components/Dashboard/SelectedCourse';
@@ -10,6 +11,13 @@ import AdminLearners from './Components/Admin/Learners';
 import AdminOurCourses from './Components/Admin/OurCourses';
 import AdminTeacher from './Components/Admin/Teachers';
 import Login from './Components/Authentication/LoginModal';
+import NotificationAd from './Components/Admin/NotificationsAdmin';
+import Ourvideo from './Components/Admin/Ourvideo';
+import Notes from './Components/Dashboard/Notes';
+
+
+//Adding Secure Routers
+
 function App() {
   return (
     <>
@@ -26,6 +34,11 @@ function App() {
     <Route path="/adminourcourses" element={<AdminOurCourses />} />
     <Route path="/adminteacher" element={<AdminTeacher />} />
     <Route path="/Login" element={<Login />} />
+    <Route path="/Notfication" element={< NotificationAd />}></Route>
+    <Route path="/UpdateCourse/:teacher.id" element={<Updateteacher />} />
+    <Route path="/ourvideo" element={<Ourvideo />} />
+    <Route path='/Notes/:id' element={<Notes/>} />
+    
     </Routes>
     
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTheme,useMediaQuery,Container, Typography, Stack,TextField, Card, CardContent,CardMedia, Button, Grid} from '@mui/material';
-import HomePic from './images/homepic.webp'
+import HomePic from './images/background.gif'
 import BG from './images/bg.avif'
 import SearchIcon from "@mui/icons-material/Search";
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
@@ -16,6 +16,7 @@ import ContactForm from './CONTACTFORM';
 import Footer from './Footer';
 import './LandingPage.css'
 import Navbar from './Navbar';
+import "./Navbar.css";
 const LandingPage = () => {
   //breakpoints
   const theme = useTheme();
@@ -154,9 +155,10 @@ const LandingPage = () => {
       >
         <Container maxWidth="lg" sx={{py:isMatchsm?"100px":"200px",color:"#ffffff"}}>
             <Stack spacing={2}>
-            <Typography variant={isMatchsm?"h5":"h3"} textAlign={isMatchsm?"center":null}><strong>Develop a passion for<br /> learning new things.</strong></Typography>
-            <Typography variant={isMatchsm?"body1":"h6"} textAlign={isMatchsm?"center":null}>Our learning platform offers a comprehensive range of courses and<br /> resources to help you expand your knowledge and skills.</Typography>
-            </Stack><br />
+            <Typography variant={isMatchsm?"body1":"h3"} textAlign={isMatchsm?"center":null}><strong>Develop a passion for learning</strong></Typography>
+            <Typography variant={isMatchsm?"body1":"h3"} textAlign={isMatchsm?"center":null}><b>New things.</b></Typography>
+            <Typography className='title_nav' variant={isMatchsm?"body1":"h6"} textAlign={isMatchsm?"center":null}><b>Explore Here</b></Typography>
+             </Stack><br />
             <Typography textAlign={isMatchsm?"center":null}>
             <TextField
                       variant="outlined"
@@ -171,8 +173,9 @@ const LandingPage = () => {
                           />
                         ),
                         style: {
-                          borderRadius: "50px",
+                          borderRadius: "10px",
                           background: "#fff",
+                          width:"150%",
                           paddingRight: "18px",
                           fontSize: "17px",
                         },

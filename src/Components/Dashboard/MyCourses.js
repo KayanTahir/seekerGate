@@ -130,7 +130,7 @@ const MyCourses = () => {
                                 color="white"
                                 variant={isMatchsm ? "body1" : "h6"}
                                 component="div"
-                                color="#000"
+                                
                               >
                                 <span className="caraousalHeadings">
                                   <b>{card.name}</b>

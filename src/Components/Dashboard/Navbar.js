@@ -21,7 +21,7 @@ const Navbar = () => {
     link:"/myCourses"
   },{
     name:"Scheduler",
-    link:"/"
+    link:"/Scheduler"
   },{
     name:"Notes",
     link:`/Notes/${localStorage.getItem('ID')}`

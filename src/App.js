@@ -14,7 +14,7 @@ import Login from './Components/Authentication/LoginModal';
 import NotificationAd from './Components/Admin/NotificationsAdmin';
 import Ourvideo from './Components/Admin/Ourvideo';
 import Notes from './Components/Dashboard/Notes';
-
+import Scheduler from './Components/Dashboard/Scheduler';
 
 //Adding Secure Routers
 
@@ -38,6 +38,8 @@ function App() {
     <Route path="/UpdateCourse/:teacher.id" element={<Updateteacher />} />
     <Route path="/ourvideo" element={<Ourvideo />} />
     <Route path='/Notes/:id' element={<Notes/>} />
+    <Route path='/Scheduler' element={<Scheduler/>} />
+
     
     </Routes>
     

@@ -21,6 +21,7 @@ import { useParams } from 'react-router-dom';
 
 const Notes = () => {
   const [data, setData] = useState([]);
+  //routering the ID as per the validation 
   const user_id = localStorage.getItem('ID')
   const getData = async () => {
     const onSuccess = (res) => {

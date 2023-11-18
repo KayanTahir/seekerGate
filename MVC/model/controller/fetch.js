@@ -1,7 +1,7 @@
 const db_con = require('../model/db');
 const express = require('express');
 const { 
-courses, teacher, user, updteacher, update_edit, video_detail, notesgeting, 
+courses, teacher, user, updteacher, update_edit, video_detail, notesgeting, coursedetail, Videopara, sltteachcourse, updusers, 
 
 
 } = require('./queries/queries');
@@ -34,7 +34,8 @@ const config = {
      //teacher get the result
       router.get('/teacher' , (req, res) => {
         
-        db_con.query(teacher, (err, data) => {
+       
+        db_con.query(teacher,(err, data) => {
           if(err) return res.json(err);
 
           return res.json({data:data})
@@ -62,10 +63,40 @@ const config = {
           return res.json({err:"ERROR"})
         };
         return res.json({
-          data : data
+          data : data?data[0]:[]
         });
       })
     })
+
+    //get teacher and course
+    
+    router.get('/stteachcour/:courses_id' , (req, res) => {
+      const courses_id = req.params.courses_id;
+
+      db_con.query(sltteachcourse, [courses_id], (err, data) => { 
+       if(err) {
+        return res.json({err:'ERROR'})
+       };
+       return res.json({
+        data: data
+       });
+      })
+    })
+
+    
+    
+    //get course detail
+    router.get('/coursedetail' , (req, res) => {
+      db_con.query(coursedetail, (err  , data) => { 
+        if (err ) { 
+          return res.json({err: 'error'})
+        };
+        return res.json({
+          data : data
+        })
+      })
+    })
+
 
     //get api for video_tutorial fetching
 
@@ -82,6 +113,20 @@ const config = {
       })
     })
     
+    //para
+    router.get('/videodetails/:video_teacher_id/:video_course_id' , (req ,res) => {
+    const video_teacher_id = req.params.video_teacher_id
+    const video_course_id = req.params.video_course_id
+ 
+    db_con.query(Videopara, [video_teacher_id, video_course_id], (err, data) => {
+      if(err) {
+        return res.json({err: 'error'})
+      };
+      return res.json({
+        data: data
+      })
+    })  
+    })
    //get api for notes fetching
 
     router.get('/getnotes/:user_id', (req, res) => {
@@ -98,6 +143,8 @@ const config = {
       })
     })
 
+
+    
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       //update api in the teacher tables
@@ -138,7 +185,7 @@ const config = {
 
       //update api in the user tables
       router.put('/userupdate/:id' , (req, res) => {
-      const sql = 'UPDATE tbl_users SET Username = ?, Password = ?, Users = ?, user_status = ?, mobile_number = ?, city = ?, gender = ?, WHERE id = ?';
+      
 
       const values = [ 
       req.body.Username,
@@ -150,7 +197,7 @@ const config = {
       req.params.id // Ascessing the id in the tbl_user table for updating the values 
       ];
 
-      db_con.query(sql, values, (err, data) => {
+      db_con.query(updusers, values, (err, data) => {
       if(err) return res.json({msg:"Error"})
       return res.json({msg:"Data is updated"})  
       })
@@ -159,6 +206,9 @@ const config = {
       
       
 
+
+
       module.exports = router;
       
-
+      //SQL Querie 
+      // SELECT ct.*, t.*,c.* FROM `tbl_courses_teachers` ct  inner join tbl_teachers t on t.teacher_id = ct.teacher_id inner join tbl_courses c on c.course_id = ct.course_id where ct.course_id = 1;

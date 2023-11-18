@@ -21,32 +21,41 @@ import axios from 'axios'
 import { apiRoutes } from "../../Api/apiRoutes";
 import { getRequest } from "../../Api";
 import handleOpenModal from "./teacherAction";
-function Updateteacher({ open, id, handleClose }) {
 
-  
+
+const useForceUpdate = () => {
+  const [, updateState] = React.useState();
+  return React.useCallback(() => updateState({}), []);
+}
+function Updateteacher({ open, id, handleClose,data }) {
+
+  console.log('data___',data?.teacher_Name)
+  const forceUpdate = useForceUpdate();
   const navigate = useNavigate();
-  const [teacher_Name, setTeacher_name] = useState('')
+  const [teacher_Name, setTeacher_name] = useState(data?.teacher_Name)
   const [teacher_Exp, setTeacher_Exp] = useState('')
   const [teacher_email, setTeacher_email] = useState('')
   const [teacher_catg, setTeacher_catg] = useState('')
   const {teacher_id} = useParams('');
+  const [teacherData] = useState('')
   
-  
+  console.log('teacher_name',teacher_Name)
+
   async function getdata () {
+    
     const teacherData = await handleOpenModal(id);
-    console.log('Teacher Data:', teacherData);
+    console.log('here is data ',teacherData)
+    setTeacher_name(teacherData?.data?.teacher_Name);
+    forceUpdate();
+    
+  
 
   }
   
   useEffect(()=>{
-   getdata(
-    setTeacher_name(teacher_Name),
-    setTeacher_Exp({teacher_Exp}),
-
-
-   )
-
-   },[])
+    setTeacher_name(data?.teacher_Name)
+  //  getdata()
+   },[data])
   
   const [user, setUser] = useState({
     // catogory: "",
@@ -204,16 +213,18 @@ function Updateteacher({ open, id, handleClose }) {
         <br />
         <br />
         <Container  sx={signupFormContainer}>
-         
+        
             <Stack sx={signupForm} direction="column" spacing="20px">
               <Typography variant={isMatchsm ? "h6" : "h4"} textAlign="center">
                 <b>Update Teacher Detail in Seekersgate</b>
               </Typography>
               <br />
+             
               <Stack spacing={1}>
                 <label >
                   <b>Teacher Name</b>
                 </label>
+              
                 <TextField
                   type="text"
                   value={teacher_Name}
@@ -224,8 +235,9 @@ function Updateteacher({ open, id, handleClose }) {
                   required
                   size="small"
                 />
-              </Stack>
              
+              </Stack>
+              
               <Stack spacing={1}>
                 {/* <label >
                   <b>ID</b>
@@ -291,7 +303,7 @@ function Updateteacher({ open, id, handleClose }) {
                 </Button>
               </Stack>
             </Stack>
-          
+
         </Container>
       </Box>
     </Modal>

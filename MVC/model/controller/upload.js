@@ -32,11 +32,17 @@ router.post('/upload', upload.single("tutorials"), (req ,res ,err) => {
     req.file.originalname,
     req.file.path,
     req.file.filename,
-    req.file.size
-
+    req.file.size,
+    req.body.video_teacher_id,  // Access the fields from req.body
+    req.body.video_despt,  // Access the fields from req.body
+    req.body.video_course_id
 
    ]
  db_con.query(videoupload, [values], (err , data) => {
+    if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ msg: 'Database error' });
+    }
         if(data) {
         return res.json({msg : "File upload"})
         }

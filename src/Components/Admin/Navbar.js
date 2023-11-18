@@ -1,8 +1,9 @@
-import { AppBar, Button, Grid, Stack, Toolbar, Typography,useTheme, useMediaQuery } from '@mui/material'
+import { AppBar, Button, Grid, Stack, Toolbar, Typography,useTheme, useMediaQuery, ToggleButton } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DrawerComp from "./DrawerComp";
 import {Link} from 'react-router-dom';
+import BasicPopover from './Popover';
 import "./Adminstyle.css";
 const Navbar = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Navbar = () => {
     };
   //Routes
   const routes = [{
-    name:"Our Courses",
+    name:"Courses",
     link:"/adminourcourses",
     sublinks: [
      {
@@ -37,7 +38,7 @@ const Navbar = () => {
     name:"Learners",
     link:"/adminlearners"
   },{
-    name:"Notifications",
+    name:'',
     link:"/Notfication"
   }
 
@@ -61,18 +62,25 @@ const Navbar = () => {
                             return(
                                 <>
                                 
-                               <Link to={route.link} style={{textDecoration:"none"}}> <Button variant="text" sx={{color:"#000"}}><b>{route.name}</b></Button></Link>
-                          
+                               <Link to={route.link} style={{textDecoration:"none"}}> <Button variant="text" sx={{color:"#000"}}><b>{route.name}</b>
+                               </Button>
+                               </Link>
+                              
                                 </>
                             )
                         })}
+                       
+                       <BasicPopover/>
+                        
                     </Stack>
+                    
                 </Grid>
               
                 <Grid item lg={2} sx={{display:"flex",justifyContent:"end"}}>
                     <Button variant="contained" onClick={()=>navigate('/')} sx={{background:"#62c929",textTransform: "capitalize"}}>logout</Button>
             </Grid>
-            <p className='pop'><b>*</b></p>
+            {/* <p className='pop'><b>*</b></p> */}
+           
             </Grid>
             )}
         </Toolbar>

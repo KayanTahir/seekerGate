@@ -24,7 +24,8 @@ import {
   import DrawerComp from "./DrawerComp";
   import "./Navbar.css";
   import LoginModal from "./Authentication/LoginModal";
-  import SignupModal from "./Authentication/SignupModal";
+  // import SignupModal from "./Authentication/SignupModal";
+  import SelectorModel from "./Authentication/Selector";
   import { useNavigate } from "react-router-dom";
   const Navbar = () => {
     // CSS AND STATES
@@ -178,7 +179,7 @@ import {
                       >
                         <b>Admin</b>
                       </Button>
-                      <SignupModal open={openModal1} handleClose={handleCloseModal1} />
+                      <SelectorModel open={openModal1} handleClose={handleCloseModal1} />
                   </Stack>
                 </Grid>
               </Grid>

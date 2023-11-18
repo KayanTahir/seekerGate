@@ -12,11 +12,14 @@ import handleOpenModal from './teacherAction';
 
 function OurCourses  () {
     
+    const [teacherData, setTeacherData]= useState();
     const [teacher_id , setTeacher_id] = useState('');
     const [openModal, setOpenModal] = useState(false);
+
     const handleClick = async (teacher_id) => {
-        const teacherData = await handleOpenModal(teacher_id);
-        console.log('Teacher Data:', teacherData);
+        // const teacherData = await handleOpenModal(teacher_id);
+        // console.log('Teacher Data:', teacherData);
+        setTeacherData(teacher_id)
         setOpenModal(true);
     };
 
@@ -36,7 +39,7 @@ const getData = async () => {
 }
 useEffect(()=>{
     getData();
-})
+},[])
 
 // const OurCourses = () => {
     
@@ -49,6 +52,13 @@ useEffect(()=>{
     
 //delete router
 
+const teachercourse = (teacher_course_id) => {
+    if (teacher_course_id === 1) {
+      return 'Computer Science';
+    }
+    // You can add more conditions for other course IDs if needed.
+  };
+
 const handleDelete = (teacher_id) => {
     axios.delete('http://127.0.0.1:8000/api/api/teacher/' +teacher_id)
     .then(res => console.log(res))
@@ -59,7 +69,7 @@ const handleDelete = (teacher_id) => {
     <>
     <Navbar/>
     <Container maxWidth="xl" sx={{ textAlign: "center",mt:"20px" }}>
-    <UpdateCourses id={teacher_id} open={openModal} handleClose={handleCloseModal} />
+    <UpdateCourses id={teacher_id} data = {teacherData} open={openModal} handleClose={handleCloseModal} />
                    <TableContainer component={Paper}>
                         <Table>
                             <TableHead sx={{ background: "#1769aa" }}>
@@ -69,8 +79,9 @@ const handleDelete = (teacher_id) => {
                                     <TableCell><Typography color="white" variant="h6"><b>Teacher Email</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Catogory</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Time Duration</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Remove Course</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Update Course</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Teacher Course</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Edit Teacher</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Remove Teacher</b></Typography></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -84,10 +95,12 @@ const handleDelete = (teacher_id) => {
                                                 <TableCell><Typography>{d.teacher_email}</Typography></TableCell>
                                                 <TableCell><Typography>{d.teacher_catg}</Typography></TableCell>
                                                 <TableCell><Typography>{d.teacher_join_date}</Typography></TableCell>
-                                                <TableCell><Typography><Button onClick={e => handleDelete(d.teacher_id)} variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
+                                                <TableCell><Typography>{d.teacher_catg}</Typography></TableCell>
                                                 <TableCell><Typography><Button  variant="contained" onClick={e => {
                                                     setTeacher_id(d.teacher_id)
-                                                    handleClick(d.teacher_id)} } sx={{background:"blue"}}>Update</Button></Typography></TableCell>
+                                                    handleClick(d)} } sx={{background:"blue"}}>Update</Button></Typography></TableCell>
+                                                <TableCell><Typography><Button onClick={e => handleDelete(d.teacher_id)} variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
+                                                
          
                                             </TableRow>
                                         </>

@@ -56,7 +56,7 @@
 .text_dump{
   width: 100%;
   height: 150px;
-  background-color: rgb(218, 250, 250);
+  background-color: rgb(163, 226, 245);
   border-color: #ffffff;
   border-radius: 0px;
   text-align: start;
@@ -65,4 +65,5 @@
 
 .upperx{
   margin-top: -50px;
+  
 }

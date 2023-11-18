@@ -1,0 +1,12 @@
+.form-control{
+    height: 40px;
+    border-radius: 10px;
+}
+
+@media screen and (min-width: 300px) and (max-width: 414px) {
+    .form-control {
+        
+        width: auto;
+        border-radius: 20px;
+    }
+}

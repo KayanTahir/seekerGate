@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import {
     Avatar,
     Grid,
@@ -21,6 +21,9 @@ import it from "./images/it.webp";
 import medicine from "./images/medicine.jpg";
 import { useNavigate } from 'react-router-dom';
 import './SelectedCourses.css'
+import { getRequest } from '../../Api';
+import { apiRoutes } from '../../Api/apiRoutes';
+import { useEffect } from 'react';
 const SelectedCourse = (props) => {
     const [showAll, setShowAll] = useState(false);
     const location = useLocation();
@@ -30,67 +33,41 @@ const SelectedCourse = (props) => {
   const isMatchsm = useMediaQuery(theme.breakpoints.down("sm"));
   const isMatchmd = useMediaQuery(theme.breakpoints.down("md"));
   const isMatchlg = useMediaQuery(theme.breakpoints.down("lg"));
+  const [data, setData] = useState([]);
+  const courses_id = localStorage.getItem('CourseID')
+
+
+  const getData = async () => {
+  const onSuccess = (res) => {
+  setData(res.data)
+    }
+    const onError = (err) => {      
+    }
+    await getRequest('',apiRoutes.Stteachcour +courses_id ,onSuccess,onError)
+}
+useEffect(()=>{
+    getData();
+},[])
+
+// const [datas, setDatas] = useState([]);
+// const {video_teacher_id} = useParams();
+//   const getDatas = async () => {
+//     const onSuccess = (res) => {
+     
+//         setDatas(res.data)
+//     }
+//     const onError = (err) => {      
+//     }
+
+//     await getRequest('', apiRoutes.videodetails +video_teacher_id, onSuccess, onError)
+// }
+
+// useEffect(()=>{
+//     getDatas();
+// })
+
   const tickets = [
-    {
-      name: "Hands on Machine Learning",
-      date: "Steven Hendry",
-      price: "60",
-    },
-    {
-        name: "Javascript",
-        date: "Dr Trump",
-        price: "60",
-    },
-    {
-        name: "Learn Programming",
-        date: "Jimmy White",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Learn Programming",
-        date: "Jimmy White",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
-    {
-        name: "Hands on Machine Learning",
-        date: "Steven Hendry",
-        price: "60",
-    },
+   
   ];
   const visibleCards = showAll ? tickets : tickets.slice(0, 6);
   const games = [
@@ -119,10 +96,11 @@ const SelectedCourse = (props) => {
   const handleShowAll = () => {
     setShowAll(true);
   };
-  const Billing = (e) =>{
-    const dataToSend = { key: 'value', anotherKey: 'anotherValue' };
-    navigate('/billing', { state: e });
-  }
+  // const Billing = (e) =>{
+    
+  //   const dataToSend = { key: 'value', anotherKey: 'anotherValue' };
+  //   navigate(``, { state: e });
+  // }
   return (
    <>
    <Navbar/><br /><br />
@@ -145,7 +123,7 @@ const SelectedCourse = (props) => {
             </Typography>
             <br />
             <Stack direction="column" spacing={4}>
-              {visibleCards.map((ticket) => {
+              {data.map((ticket) => {
                 return (
                   <>
                     <Card sx={cardTicket}>
@@ -158,34 +136,49 @@ const SelectedCourse = (props) => {
                           <Stack direction="row" spacing={3}>
                             <Stack direction="column" spacing={1}>
                               <Typography className="caraousalHeadings" variant={isMatchmd ? "body2" : "h6"}>
-                                <b>{ticket.name}</b>
+                                <b>{ticket.teacher_Name}</b>
+                                <p>{ticket.teacher_catg}</p>
+                                <Typography
+                                variant={isMatchmd ? "subtitle2" : "body1"}
+                                color="#8b8b8b"
+                              >
+                                <p>{ticket.teacher_Exp} of Experience</p>
+                                </Typography>
+                                
                               </Typography>
                               <Typography
                                 variant={isMatchmd ? "subtitle2" : "body1"}
                                 color="#8b8b8b"
                               >
-                                <b>{ticket.date}</b>
+                                <b>{ticket.teacher_join_date}</b>
                               </Typography>
                             </Stack>
                           </Stack>
-                          <Button
+                          <Link to={`/videotutorials/${ticket.teacher_id}/${localStorage.getItem('CourseID')}`}><Button
                             variant="contained"
                             sx={{
                               background: "#02004D",
                               px: isMatchsm ? null : 3,
                               fontFamily:'Poppins'
                             }}
-                            onClick={()=>Billing(ticket.name)}
+                            onClick={() => {
+                              // Save teacher_id in local storage
+                              localStorage.setItem('teachervideo', ticket.teacher_id);
+                              
+                              // Trigger the routing to the video tutorials page
+                            }}
                           >
-                            <b>From ${ticket.price}</b>
-                          </Button>
+                            <b>Free {ticket.price}</b>
+                          </Button></Link>
                         </Stack>
                       </CardContent>
                     </Card>
                   </>
                 );
               })}
-            </Stack>
+          
+              </Stack>
+          
             <br />
             {!showAll && (
               <Button

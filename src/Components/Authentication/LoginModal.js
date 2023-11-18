@@ -73,11 +73,10 @@ function SignupModal({ open, handleClose }) {
     
 
     const onSuccess = (res) => {
-      setMsg(res.msg);
+      alert(res.msg);
       localStorage.setItem('ID',res.id)
       localStorage.setItem('username', res.Users)
-      navigate('/ourcourses')
-      
+      window.location.reload();
     }
     const onError =(res) => {
       alert(res.msg);

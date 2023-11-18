@@ -11,10 +11,10 @@ const Navbar = () => {
     const isMatchlg = useMediaQuery(theme.breakpoints.down("lg"));
   //Routes
   const routes = [{
-    name:"Our Courses",
-    link:"/ourCourses"
+    name:"Courses",
+    link:"/"
   },{
-    name:"Teaching Staff",
+    name:"Teachers",
     link:"/teachingStaff"
   },{
     name:"My Courses",
@@ -58,7 +58,13 @@ const Navbar = () => {
       </div>
                 </Grid>
                 <Grid item lg={1} sx={{display:"flex",justifyContent:"end"}}>
-                    <Button variant="contained" onClick={()=>navigate('/')} sx={{background:"#62c929",textTransform: "capitalize"}}>logout</Button>
+                    <Button variant="contained" onClick={()=>{
+                      window.location.reload();
+                      window.localStorage.removeItem('ID','username')
+
+
+                      
+                      }} sx={{background:"#62c929",textTransform: "capitalize"}}>logout</Button>
             </Grid>
             </Grid>
             )}

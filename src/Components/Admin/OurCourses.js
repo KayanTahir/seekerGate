@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import { Paper, Table, TableHead,Typography,Modal, TableContainer, TableRow, TableCell, TableBody, Button } from '@mui/material';
 import { Container } from '@mui/system';
 import Footer from '../Footer';
-import AddCourse from './Addvideo';
+import AddCourse from './Addcourse';
 import { getRequest } from '../../Api';
 import { apiRoutes } from '../../Api/apiRoutes';
 const OurCourses = () => {
@@ -45,14 +45,15 @@ const OurCourses = () => {
                         <Table>
                             <TableHead sx={{ background: "#1769aa" }}>
                                 <TableRow>
-                                    <TableCell><Typography color="white" variant="h6"><b>Catogory</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Image</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Course Name</b></Typography></TableCell>
                                   
                                     <TableCell><Typography color="white" variant="h6"><b>total Videos</b></Typography></TableCell>
                                     <TableCell><Typography color="white" variant="h6"><b>Course Upload Date</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>released Time</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Remove Course</b></Typography></TableCell>
-                                    <TableCell><Typography color="white" variant="h6"><b>Update Course</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Teacher Name</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Status</b></Typography></TableCell>
+                                    <TableCell><Typography color="white" variant="h6"><b>Approve Course</b></Typography></TableCell>
+                                    
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -61,13 +62,13 @@ const OurCourses = () => {
                                     return (
                                         <>
                                             <TableRow>
-                                                <TableCell><Typography>{d.course_catg}</Typography></TableCell>
+                                                <TableCell><Typography>{d.course_img}</Typography></TableCell>
                                                 <TableCell><Typography>{d.course_name}</Typography></TableCell>
                                                 <TableCell><Typography>{d.total_video}</Typography></TableCell>
                                                 <TableCell><Typography>{d.course_rel_date}</Typography></TableCell>
-                                                <TableCell><Typography>{d.course_dur_time}</Typography></TableCell>
-                                                <TableCell><Typography><Button variant="contained" sx={{ background: "red" }}>Delete</Button></Typography></TableCell>
-                                                <TableCell><Typography><Button variant="contained" sx={{ background: "blue" }}>Update</Button></Typography></TableCell>
+                                                <TableCell><Typography>{d.course_teacher_id}</Typography></TableCell>
+                                                <TableCell><Typography>{d.status}</Typography></TableCell>
+                                                <TableCell><Typography><Button variant="contained" sx={{ background: "red" }}>Apporval</Button></Typography></TableCell>
                                             </TableRow>
                                         </>
                                     )
